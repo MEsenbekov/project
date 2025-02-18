@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}All Books{% endblock %}
+
+{% block content %}
+    <h2>All Books</h2>
+    <div class="actions">
+        <button onclick="window.location.href='{% url 'add_book' %}'">Add New Book</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Plot</th>
+                <th>Format</th>
+                <th>Word Count</th>
+                <th>Reading Time</th>
+                <th>Number of Series</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.plot }}</td>
+                <td>{{ book.get_book_format_display }}</td>
+                <td>{{ book.word_count }}</td>
+                <td>{{ book.read_time }}</td>
+                <td>{{ book.amoun_of_series }}</td>
+                <td>
+                    <form method="POST" action="{% url 'book_delete' book.pk %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
